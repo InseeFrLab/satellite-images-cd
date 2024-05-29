@@ -10,7 +10,6 @@ geoserver:
     - name: GEOSERVER_CSRF_DISABLED
       value: "true"
 
-
   # This will be evaluated as pod spec
   extraPodSpec: |
     initContainers:
@@ -19,12 +18,22 @@ geoserver:
         command: ["/bin/sh", "-c"]
         args:
         - |
-          mc cp --recursive s3/projet-slums-detection/data-geoserver/MARTINIQUE/2022/ /dossierimage/data_dir/MARTINIQUE/2022 && \
-          mc cp --recursive s3/projet-slums-detection/data-geoserver/GUADELOUPE/2022/ /dossierimage/data_dir/GUADELOUPE/2022 && \
           mc cp --recursive s3/projet-slums-detection/data-geoserver/ilots/  /dossierimage/data_dir/ilots
-        envFrom:
-        - secretRef:
-            name: env-secrets-slums-detection
+        env:
+          - name: AWS_S3_ENDPOINT
+            value: minio.lab.sspcloud.fr
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: my-s3-creds
+                key: accessKey
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: my-s3-creds
+                key: secretKey
+          - name: AWS_DEFAULT_REGION
+            value: us-east-1
         volumeMounts:
         - name: geoserver-data-dir
           mountPath: /dossierimage
