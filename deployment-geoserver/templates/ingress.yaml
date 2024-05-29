@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: geoserver-instance
 spec:
-  tls: # https = http + tls -> couche de confidentialité, client et serveur ne parlent pas en clair mais definissent un tunnel de confidentialité dans lequel ils sont les seuls à comprendre le contenu
+  tls: 
     - hosts:
         - geoserver-satellite-images.lab.sspcloud.fr
   rules:
@@ -17,4 +17,4 @@ spec:
           service:
             name: geoserver-instance
             port:
-              number: 8080
+              number: 80
