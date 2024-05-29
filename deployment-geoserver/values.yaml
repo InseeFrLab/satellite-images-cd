@@ -42,14 +42,7 @@ geoserver:
 
   probe: |
     livenessProbe:
-      httpGet:
-        path: /geoserver
-        port: http-geoserver
-        scheme: HTTPS
-      failureThreshold: 30
-      successThreshold: 1
-      periodSeconds: 10
-
+      
   persistence:
     geoserverDataDir:
       enabled: true
