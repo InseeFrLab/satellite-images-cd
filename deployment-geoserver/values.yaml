@@ -46,7 +46,7 @@ geoserver:
         path: /geoserver
         port: http-geoserver
         scheme: HTTP
-      failureThreshold: 3
+      failureThreshold: 30
       successThreshold: 1
       periodSeconds: 10
 
