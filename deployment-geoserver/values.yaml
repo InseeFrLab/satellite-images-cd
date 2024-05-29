@@ -40,7 +40,7 @@ geoserver:
         - name: geoserver-data-dir
           mountPath: /dossierimage
 
-  probe:
+  probe: |
     livenessProbe:
       httpGet:
         path: /geoserver
