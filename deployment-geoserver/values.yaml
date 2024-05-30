@@ -34,14 +34,9 @@ geoserver:
               secretKeyRef:
                 name: my-s3-creds
                 key: secretKey
-          - name: AWS_DEFAULT_REGION
-            value: us-east-1
         volumeMounts:
         - name: geoserver-data-dir
           mountPath: /dossierimage
-
-  probe: |
-    livenessProbe:
       
   persistence:
     geoserverDataDir:
