@@ -39,11 +39,11 @@ spec:
               mountPath: /opt/geoserver/data_dir/gwc
           resources:
             requests:
-              memory: "1Gi"
-              cpu: "1000m"
+              memory: "16Gi"
+              cpu: "3000m"
             limits:
-              memory: "2Gi"
-              cpu: "2000m"
+              memory: "100Gi"
+              cpu: "30000m"
       volumes:
         - name: geoserver-data-dir
           persistentVolumeClaim:
