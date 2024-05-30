@@ -3,18 +3,17 @@ kind: Ingress
 metadata:
   name: geoserver-instance
 spec:
-  tls: 
-    - hosts:
-        - geoserver-satellite-images.lab.sspcloud.fr
   rules:
-  - host:  geoserver-satellite-images.lab.sspcloud.fr
-
+  - host: geoserver-satellite-images.lab.sspcloud.fr
     http:
       paths:
-      - path: /
-        pathType: Prefix
-        backend:
+      - backend:
           service:
             name: geoserver-instance
             port:
               number: 8080
+        path: /
+        pathType: Prefix
+  tls: 
+  - hosts:
+    - geoserver-satellite-images.lab.sspcloud.fr
