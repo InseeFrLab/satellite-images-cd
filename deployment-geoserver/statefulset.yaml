@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: geoserver-instance
+  name: geoserver-deployment
 spec:
-  serviceName: geoserver-instance
+  serviceName: geoserver-service
   replicas: 1
   selector:
     matchLabels:
-      app: geoserver-instance
+      app: geoserver-deployment
   template:
     metadata:
       labels:
-        app: geoserver-instance
+        app: geoserver-deployment
     spec:
       containers:
         - name: geoserver
           image: kartoza/geoserver:2.23.1
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
-                name: configmap-geoserver
+                name: geoserver-configmap
           env:
             - name: GEOSERVER_ADMIN_USER
               valueFrom:
@@ -31,6 +31,34 @@ spec:
                 secretKeyRef:
                   name: my-geoserver-creds
                   key: pwd
+          ports:
+            - containerPort: 8080
+              name: http-geoserver
+              protocol: TCP
+
+          startupProbe:            
+            httpGet:
+              path: /geoserver
+              port: http-geoserver
+              scheme: HTTP
+            periodSeconds: 5
+            failureThreshold: 60
+
+          livenessProbe:
+            httpGet:
+              path: /geoserver
+              port: http-geoserver
+              scheme: HTTP
+            periodSeconds: 10
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /geoserver
+              port: http-geoserver
+              scheme: HTTP
+            periodSeconds: 10
+            failureThreshold: 3
 
           volumeMounts:
             - name: geoserver-data-dir
