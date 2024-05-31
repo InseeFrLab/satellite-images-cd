@@ -10,4 +10,4 @@ spec:
       protocol: TCP
       targetPort: 8080
   selector:
-    app: geoserver-deployment
+    app: geoserver-pod
