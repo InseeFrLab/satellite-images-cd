@@ -1,0 +1,27 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cratt-pod
+spec:
+  serviceName: cratt-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cratt-pod
+  template:
+    metadata:
+      labels:
+        app: cratt-pod
+    spec:
+      containers:
+        - name: cratt
+          image: cguillo/cratt:latest # inseefrlab/cratt:v0.0.1
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "3"
+              memory: "10Gi"
+            limits:
+              cpu: "4"
+              memory: "20Gi"

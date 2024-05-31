@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgis-config
+  labels:
+    app: postgis
+data:
+  POSTGRES_DB: db_cratt
+  POSTGRES_USER: cratt
+  POSTGRES_PASSWORD: cratt
