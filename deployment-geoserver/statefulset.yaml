@@ -13,6 +13,36 @@ spec:
       labels:
         app: geoserver-pod
     spec:
+      initContainers:
+        - name: download         
+          image: minio/mc
+          imagePullPolicy: Always 
+          command:
+            - /bin/sh
+            - '-c'
+            - |
+              # Copy data from S3 to the local volume
+              mc cp -r s3/projet-slums-detection/data-geoserver/ilots/ /dossierimage/ilots
+          env:
+            - name: AWS_S3_ENDPOINT
+              value: minio.lab.sspcloud.fr
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: accessKey
+                  name: my-s3-creds
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: secretKey
+                  name: my-s3-creds
+            - name: MC_HOST_s3
+              value: https://${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}:@${AWS_S3_ENDPOINT}
+
+          volumeMounts:
+            - name: geoserver-data-dir
+              mountPath: /dossierimage
+
       containers:
         - name: geoserver
           image: kartoza/geoserver:2.23.1
