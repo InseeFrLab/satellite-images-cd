@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: cratt
-          image: cguillo/cratt:latest # inseefrlab/cratt:v0.0.1
+          image: inseefrlab/cratt:v0.0.1
           imagePullPolicy: IfNotPresent
           resources:
             requests:
