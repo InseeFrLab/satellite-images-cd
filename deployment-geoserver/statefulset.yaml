@@ -67,29 +67,30 @@ spec:
               name: http-geoserver
               protocol: TCP
 
-          # startupProbe:            
-          #   httpGet:
-          #     path: /geoserver
-          #     port: http-geoserver
-          #     scheme: HTTP
-          #   periodSeconds: 5
-          #   failureThreshold: 60
+           startupProbe:            
+             httpGet:
+               path: /geoserver
+               port: http-geoserver
+               scheme: HTTP
+             initialDelaySeconds: 30
+             periodSeconds: 10
+             failureThreshold: 10
 
-          # livenessProbe:
-          #   httpGet:
-          #     path: /geoserver
-          #     port: http-geoserver
-          #     scheme: HTTP
-          #   periodSeconds: 10
-          #   failureThreshold: 3
+           livenessProbe:
+             httpGet:
+               path: /geoserver
+               port: http-geoserver
+               scheme: HTTP
+             periodSeconds: 10
+             failureThreshold: 3
 
-          # readinessProbe:
-          #   httpGet:
-          #     path: /geoserver
-          #     port: http-geoserver
-          #     scheme: HTTP
-          #   periodSeconds: 10
-          #   failureThreshold: 3
+           readinessProbe:
+             httpGet:
+               path: /geoserver
+               port: http-geoserver
+               scheme: HTTP
+             periodSeconds: 10
+             failureThreshold: 3
 
           volumeMounts:
             - name: geoserver-data-dir
