@@ -25,7 +25,7 @@ spec:
               export MC_HOST_s3=https://${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}:@${AWS_S3_ENDPOINT}
     
               # Copy data from S3 to the local volume
-              mc cp -r s3/projet-slums-detection/data-geoserver/ilots/ /dossierimage/ilots
+              mc cp -r s3/projet-slums-detection/data-clusters /dossierimage/ilots
           env:
             - name: AWS_S3_ENDPOINT
               value: minio.lab.sspcloud.fr
