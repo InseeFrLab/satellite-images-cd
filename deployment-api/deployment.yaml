@@ -1,10 +1,9 @@
-# Creating MLflow deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: satellite-images-model-deployment
 spec:
-  replicas: 7
+  replicas: 1
   selector:
     matchLabels:
       app: satellite-images-model-deployment
@@ -37,12 +36,12 @@ spec:
               value: us-east-1
             # env var for setting mlflow model registry server
             - name: MLFLOW_TRACKING_URI
-              value: https://projet-slums-detection-128833.user.lab.sspcloud.fr
+              value: https://projet-slums-detection-mlflow.user.lab.sspcloud.fr
             # env var for setting models uri which will be deployed
             - name: MLFLOW_MODEL_NAME
-              value: test
+              value: Segmentation
             - name: MLFLOW_MODEL_VERSION
-              value: "15"
+              value: "1"
             - name: MLFLOW_ENABLE_ARTIFACTS_PROGRESS_BAR
               value: "false"
           resources:
