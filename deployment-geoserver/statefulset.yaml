@@ -94,9 +94,9 @@ spec:
 
           volumeMounts:
             - name: geoserver-data-dir
-              mountPath: "$(GEOSERVER_DATA_DIR)"
+              mountPath: "/opt/geoserver/data_dir"
             - name: geowebcache-cache-dir
-              mountPath: "$(GEOWEBCACHE_CACHE_DIR)"
+              mountPath: "/opt/geoserver/data_dir/gwc"
           resources:
             requests:
               memory: "16Gi"
