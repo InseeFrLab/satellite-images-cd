@@ -14,7 +14,7 @@ spec:
         app: geoserver-pod
     spec:
       initContainers:
-        - name: download-images-pod         
+        - name: download-images-pod
           image: minio/mc
           imagePullPolicy: Always 
           command:
@@ -22,10 +22,13 @@ spec:
             - '-c'
             - |
               # Set up the environment variable for MinIO client
-              export MC_HOST_s3=https://${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}:@${AWS_S3_ENDPOINT}
-    
+              export MC_HOST_s3=https://${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}@${AWS_S3_ENDPOINT}
+
+              # Check connection to S3 before copying
+              mc ls s3/projet-slums-detection || exit 1
+
               # Copy data from S3 to the local volume
-              mc cp -r s3/projet-slums-detection/data-clusters /dossierimage/ilots
+              mc cp -r s3/projet-slums-detection/data-clusters /dossierimage/ilots || exit 1
           env:
             - name: AWS_S3_ENDPOINT
               value: minio.lab.sspcloud.fr
@@ -48,12 +51,13 @@ spec:
         - name: geoserver
           image: kartoza/geoserver:2.23.1
           imagePullPolicy: IfNotPresent
-          command: ["/bin/bash", -c]
+          command: ["/bin/bash", "-c"]
           args:
             - |
-              wget -q https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/local/bin/mc
-              chmod +x /usr/local/bin/mc
-              export MC_HOST_s3=https://$AWS_ACCESS_KEY_ID:$AWS_SECRET_ACCESS_KEY@$AWS_S3_ENDPOINT
+              # Install MinIO client
+              wget -q https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/local/bin/mc && \
+              chmod +x /usr/local/bin/mc && \
+              export MC_HOST_s3=https://$AWS_ACCESS_KEY_ID:$AWS_SECRET_ACCESS_KEY@$AWS_S3_ENDPOINT && \
 
           envFrom:
             - configMapRef:
