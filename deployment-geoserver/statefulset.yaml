@@ -48,6 +48,13 @@ spec:
         - name: geoserver
           image: kartoza/geoserver:2.23.1
           imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", -c]
+          args:
+            - |
+              wget -q https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/local/bin/mc
+              chmod +x /usr/local/bin/mc
+              export MC_HOST_s3=https://$AWS_ACCESS_KEY_ID:$AWS_SECRET_ACCESS_KEY@$AWS_S3_ENDPOINT
+
           envFrom:
             - configMapRef:
                 name: geoserver-configmap
@@ -62,6 +69,18 @@ spec:
                 secretKeyRef:
                   name: my-geoserver-creds
                   key: pwd
+            - name: AWS_S3_ENDPOINT
+              value: minio.lab.sspcloud.fr
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: accessKey
+                  name: my-s3-creds
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: secretKey
+                  name: my-s3-creds
           ports:
             - containerPort: 8080
               name: http-geoserver
@@ -94,9 +113,9 @@ spec:
 
           volumeMounts:
             - name: geoserver-data-dir
-              mountPath: "/opt/geoserver/data_dir"
+              mountPath: /opt/geoserver/data_dir
             - name: geowebcache-cache-dir
-              mountPath: "/opt/geoserver/data_dir/gwc"
+              mountPath: /opt/geoserver/data_dir/gwc
           resources:
             requests:
               memory: "16Gi"
