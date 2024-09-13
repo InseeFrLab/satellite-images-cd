@@ -111,7 +111,7 @@ spec:
               mountPath: /opt/geoserver/data_dir/gwc
           resources:
             requests:
-              memory: "16Gi"
+              memory: "75Gi"
               cpu: "3000m"
             limits:
               memory: "100Gi"
