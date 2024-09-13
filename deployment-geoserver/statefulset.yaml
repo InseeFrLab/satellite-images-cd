@@ -74,6 +74,11 @@ spec:
                 secretKeyRef:
                   key: secretKey
                   name: my-s3-creds
+            - name: MC_HOST_s3
+              valueFrom:
+                secretKeyRef:
+                  key: secret
+                  name: mc-s3
           ports:
             - containerPort: 8080
               name: http-geoserver
