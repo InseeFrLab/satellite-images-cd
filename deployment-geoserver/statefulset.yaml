@@ -13,24 +13,6 @@ spec:
       labels:
         app: geoserver-pod
     spec:
-          env:
-            - name: AWS_S3_ENDPOINT
-              value: minio.lab.sspcloud.fr
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  key: accessKey
-                  name: my-s3-creds
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: secretKey
-                  name: my-s3-creds
-
-          volumeMounts:
-            - name: geoserver-data-dir
-              mountPath: /dossierimage
-
       containers:
         - name: geoserver
           image: kartoza/geoserver:2.23.1
