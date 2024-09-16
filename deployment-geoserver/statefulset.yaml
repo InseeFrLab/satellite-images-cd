@@ -24,8 +24,37 @@ spec:
               # Set up the environment variable for MinIO client
               export MC_HOST_s3=https://${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}:@${AWS_S3_ENDPOINT}
     
-              # Copy data from S3 to the local volume
-              mc cp -r s3/projet-slums-detection/data-clusters /dossierimage/ilots
+              # Import cluster geometries
+              mc cp -r s3/projet-slums-detection/data-clusters \
+                      /dossierimage/ilots
+
+              # Import raw images
+              mc cp -r s3/projet-slums-detection/data-raw/PLEIADES/GUADELOUPE/2022/  \
+                      /dossierimage/PLEIADES/GUADELOUPE/2022
+              mc cp -r s3/projet-slums-detection/data-raw/PLEIADES/GUYANE/2023/  \
+                      /dossierimage/PLEIADES/GUYANE/2023
+              mc cp -r s3/projet-slums-detection/data-raw/PLEIADES/MARTINIQUE/2022/  \
+                      /dossierimage/PLEIADES/MARTINIQUE/2022
+              mc cp -r s3/projet-slums-detection/data-raw/PLEIADES/MAYOTTE/2023/  \
+                      /dossierimage/PLEIADES/MAYOTTE/2023
+              mc cp -r s3/projet-slums-detection/data-raw/PLEIADES/REUNION/2023/  \
+                      /dossierimage/PLEIADES/REUNION/2023
+              mc cp -r s3/projet-slums-detection/data-raw/PLEIADES/SAINT-MARTIN/2024/  \
+                      /dossierimage/PLEIADES/SAINT-MARTIN/2024
+
+              # Import predictions
+              mc cp s3/projet-slums-detection/data-prediction/PLEIADES/GUADELOUPE/2022/test/15/predictions.gpkg \
+                    /dossierimage/PREDICTIONS/PLEIADES/GUADELOUPE/2022/test/15/predictions.gpkg
+              mc cp s3/projet-slums-detection/data-prediction/PLEIADES/GUYANE/2023/test/15/predictions.gpkg \
+                    /dossierimage/PREDICTIONS/PLEIADES/GUYANE/2023/test/15/predictions.gpkg
+              mc cp s3/projet-slums-detection/data-prediction/PLEIADES/MARTINIQUE/2022/test/15/predictions.gpkg \
+                    /dossierimage/PREDICTIONS/PLEIADES/MARTINIQUE/2022/test/15/predictions.gpkg
+              mc cp s3/projet-slums-detection/data-prediction/PLEIADES/MAYOTTE/2023/test/15/predictions.gpkg \
+                    /dossierimage/PREDICTIONS/PLEIADES/MAYOTTE/2023/test/15/predictions.gpkg
+              mc cp s3/projet-slums-detection/data-prediction/PLEIADES/REUNION/2023/test/15/predictions.gpkg \
+                    /dossierimage/PREDICTIONS/PLEIADES/REUNION/2023/test/15/predictions.gpkg
+              mc cp s3/projet-slums-detection/data-prediction/PLEIADES/SAINT-MARTIN/2024/test/15/predictions.gpkg \
+                    /dossierimage/PREDICTIONS/PLEIADES/SAINT-MARTIN/2024/test/15/predictions.gpkg
           env:
             - name: AWS_S3_ENDPOINT
               value: minio.lab.sspcloud.fr
