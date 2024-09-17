@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: geoserver
-          image: kartoza/geoserver:2.23.1
+          image: kartoza/geoserver:2.25.2
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
