@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: cratt
-          image: inseefrlab/satellite-images-webapp:v0.0.5
+          image: inseefrlab/satellite-images-webapp:v0.0.6
           imagePullPolicy: IfNotPresent
           resources:
             requests:
