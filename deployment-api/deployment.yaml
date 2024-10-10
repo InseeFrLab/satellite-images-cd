@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: satellite-images-app
-          image: inseefrlab/satellite-images-inference:v0.2.3
+          image: inseefrlab/satellite-images-inference:v0.2.4
           imagePullPolicy: Always
           env:
             # env var for s3 connexion
