@@ -51,5 +51,3 @@ spec:
             requests:
               memory: "20Gi"
               cpu: "1000m"
-          workers: 32
-          workerTimeout: 3600
