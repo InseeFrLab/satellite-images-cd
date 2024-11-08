@@ -4,7 +4,6 @@ kind: Deployment
 metadata:
   name: cratt-pod
 spec:
-  serviceName: cratt-service
   replicas: 1
   selector:
     matchLabels:
