@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: satellite-images-app
-          image: inseefrlab/satellite-images-inference:v0.2.7
+          image: inseefrlab/satellite-images-inference:v0.2.8
           imagePullPolicy: Always
           env:
             # env var for s3 connexion
@@ -39,7 +39,7 @@ spec:
               value: https://projet-slums-detection-mlflow.user.lab.sspcloud.fr
             # env var for setting models uri which will be deployed
             - name: MLFLOW_MODEL_NAME
-              value: Segmentation
+              value: Segmentation-multiclass
             - name: MLFLOW_MODEL_VERSION
               value: "1"
             - name: MLFLOW_ENABLE_ARTIFACTS_PROGRESS_BAR
@@ -49,5 +49,5 @@ spec:
               memory: "50Gi"
               cpu: "90000m"
             requests:
-              memory: "20Gi"
+              memory: "8Gi"
               cpu: "1000m"
