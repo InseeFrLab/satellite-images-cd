@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: satellite-images-model-deployment
 spec:
-  replicas: 15
+  replicas: 6
   selector:
     matchLabels:
       app: satellite-images-model-deployment
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: satellite-images-app
-          image: inseefrlab/satellite-images-inference:v0.2.8
+          image: inseefrlab/satellite-images-inference:v0.2.9
           imagePullPolicy: Always
           env:
             # env var for s3 connexion
