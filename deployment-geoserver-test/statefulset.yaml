@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: geoserver-test-pod
+spec:
+  serviceName: geoserver-test-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geoserver-test-pod
+  template:
+    metadata:
+      labels:
+        app: geoserver-test-pod
+    spec:
+      containers:
+        - name: geoserver
+          image: kartoza/geoserver:2.25.2
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: geoserver-test-configmap
+          env:
+            - name: GEOSERVER_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: my-geoserver-creds
+                  key: username
+            - name: GEOSERVER_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-geoserver-creds
+                  key: pwd
+            - name: AWS_S3_ENDPOINT
+              value: minio.lab.sspcloud.fr
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: accessKey
+                  name: my-s3-creds
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: secretKey
+                  name: my-s3-creds
+            - name: MC_HOST_s3
+              valueFrom:
+                secretKeyRef:
+                  key: secret
+                  name: mc-s3
+          ports:
+            - containerPort: 8080
+              name: http-geoserver
+              protocol: TCP
+
+          startupProbe:            
+            httpGet:
+              path: /geoserver
+              port: http-geoserver
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 60
+            failureThreshold: 10
+    
+          livenessProbe:
+            httpGet:
+              path: /geoserver
+              port: http-geoserver
+              scheme: HTTP
+            periodSeconds: 60
+            failureThreshold: 10
+    
+          readinessProbe:
+            httpGet:
+              path: /geoserver
+              port: http-geoserver
+              scheme: HTTP
+            periodSeconds: 60
+            failureThreshold: 10
+
+          volumeMounts:
+            - name: geoserver-data-dir
+              mountPath: /opt/geoserver/data_dir
+            - name: geowebcache-cache-dir
+              mountPath: /opt/geoserver/data_dir/gwc
+          resources:
+            requests:
+              memory: "75Gi"
+              cpu: "3000m"
+            limits:
+              memory: "100Gi"
+              cpu: "30000m"
+      
+      volumes:
+        - name: geoserver-data-dir
+          persistentVolumeClaim:
+            claimName: geoserver-data-dir-pvc
+        - name: geowebcache-cache-dir
+          persistentVolumeClaim:
+            claimName: geowebcache-cache-dir-pvc
