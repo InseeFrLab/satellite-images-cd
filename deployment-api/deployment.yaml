@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: satellite-images-app
-          image: inseefrlab/satellite-images-inference:v0.2.10
+          image: inseefrlab/satellite-images-inference:v0.2.11
           imagePullPolicy: Always
           env:
             # env var for s3 connexion
@@ -46,8 +46,8 @@ spec:
               value: "false"
           resources:
             limits:
-              memory: "50Gi"
-              cpu: "90000m"
+              memory: "75Gi"
+              cpu: "100000m"
             requests:
               memory: "8Gi"
               cpu: "1000m"
