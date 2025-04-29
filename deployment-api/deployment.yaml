@@ -48,3 +48,6 @@ spec:
             limits:
               memory: "75Gi"
               cpu: "100000m"
+            requests:
+              cpu: "1"
+              memory: "128Mi"
